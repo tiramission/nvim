@@ -1,93 +1,40 @@
-vim.pack.add({
-  -- "https://github.com/Mofiqul/dracula.nvim",
-  "https://github.com/catppuccin/nvim",
-  "https://github.com/mason-org/mason.nvim",
-  "https://github.com/mason-org/mason-lspconfig.nvim",
-  "https://github.com/neovim/nvim-lspconfig",
-  "https://github.com/owallb/mason-auto-install.nvim",
-  "https://github.com/rachartier/tiny-inline-diagnostic.nvim", -- diagnostic
-  "https://github.com/nvim-neo-tree/neo-tree.nvim",
-  "https://github.com/nvim-lua/plenary.nvim",
-  "https://github.com/MunifTanjim/nui.nvim",
-  "https://github.com/nvim-tree/nvim-web-devicons",
-  "https://github.com/nvimdev/dashboard-nvim",
-  "https://github.com/folke/which-key.nvim",
-  "https://github.com/nvim-lualine/lualine.nvim",
-  "https://github.com/akinsho/bufferline.nvim",
-  "https://github.com/lukas-reineke/indent-blankline.nvim",
-  "https://github.com/nvim-telescope/telescope.nvim",
-  "https://github.com/nvim-lua/plenary.nvim",
-  "https://github.com/folke/noice.nvim",
-  "https://github.com/MunifTanjim/nui.nvim",
-  "https://github.com/rcarriga/nvim-notify",
-  "https://github.com/saghen/blink.cmp",
-  "https://github.com/rafamadriz/friendly-snippets",
-  "https://github.com/folke/lazydev.nvim",
-  "https://github.com/smoka7/hop.nvim",
-  "https://github.com/aznhe21/actions-preview.nvim",
+local core = require("config.core")
+
+core.packadd({
+  core.gh("nvim-mini/mini.nvim"),
+  core.gh("catppuccin/nvim"),
+  core.gh("rachartier/tiny-inline-diagnostic.nvim"),
+  {
+    core.gh("nvim-neo-tree/neo-tree.nvim"),
+    core.gh("nvim-lua/plenary.nvim"),
+    core.gh("MunifTanjim/nui.nvim"),
+    core.gh("nvim-tree/nvim-web-devicons"),
+  },
+  core.gh("nvimdev/dashboard-nvim"),
+  core.gh("folke/which-key.nvim"),
+  core.gh("nvim-lualine/lualine.nvim"),
+  core.gh("akinsho/bufferline.nvim"),
+  core.gh("lukas-reineke/indent-blankline.nvim"),
+  {
+    core.gh("nvim-telescope/telescope.nvim"),
+    core.gh("nvim-lua/plenary.nvim"),
+  },
+  {
+    core.gh("folke/noice.nvim"),
+    core.gh("MunifTanjim/nui.nvim"),
+  },
+  core.gh("aznhe21/actions-preview.nvim"),
+  core.gh("mason-org/mason-lspconfig.nvim"),
+  core.gh("mason-org/mason.nvim"),
+  core.gh("owallb/mason-auto-install.nvim"),
+  core.gh("neovim/nvim-lspconfig"),
+  {
+    core.gh("saghen/blink.cmp"),
+    core.gh("rafamadriz/friendly-snippets"),
+  },
+  core.gh("folke/lazydev.nvim"),
+  core.gh("smoka7/hop.nvim"),
 })
 
--- ui
-vim.cmd("colorscheme catppuccin")
-vim.opt.number = true
-vim.opt.showtabline = 2
-
-require("tiny-inline-diagnostic").setup({})
-require("neo-tree").setup({})
-require("lualine").setup({})
-require("bufferline").setup({})
-require("ibl").setup()
-require("which-key").setup({})
-require("telescope").setup({})
-require("noice").setup({})
-require("hop").setup({})
-
--- lsp
-require("lazydev").setup({})
-require("mason").setup({})
-require("mason-lspconfig").setup({ automatic_enable = false })
-require("blink.cmp").setup({
-  keymap = { preset = "super-tab" },
-  fuzzy = { implementation = "lua" },
-})
-require("mason-auto-install").setup({
-  packages = { "lua-language-server", "stylua", "gopls" },
-})
-
-vim.lsp.enable({ "lua_ls", "stylua", "gopls" })
-
--- events
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    require("dashboard").setup({})
-  end,
-})
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = function()
-    vim.lsp.buf.format({ async = false })
-  end,
-})
-
--- functions
-local F = {
-  ca = require("actions-preview").code_actions,
-  fmt = vim.lsp.buf.format,
-}
-
--- key
-vim.keymap.set("n", "-", ":Neotree focus<Cr>", { silent = true, desc = "neotree" })
-vim.keymap.set({ "n", "x" }, "<leader>ca", F.ca, { silent = true, desc = "code action" })
-vim.keymap.set("n", "<leader>f", F.fmt, { silent = true, desc = "format" })
-vim.keymap.set("n", "<leader>e", ":Neotree focus<Cr>", { silent = true, desc = "neotree" })
-vim.keymap.set("n", "<leader>qq", ":qa!<Cr>", { silent = true, desc = "exit force" })
-vim.keymap.set("n", "<leader>bd", ":bd<Cr>", { silent = true, desc = "close buf" })
-vim.keymap.set("n", "<leader>bD", ":bd!<Cr>", { silent = true, desc = "close buf force" })
-vim.keymap.set("n", "<leader><leader>", ":HopWord<Cr>", { silent = true, desc = "hop word" })
-vim.keymap.set({ "i", "n" }, "<C-s>", "<cmd>:w<Cr>", { silent = true })
-vim.keymap.set({ "i", "n" }, "<C-q>", "<cmd>:q<Cr>", { silent = true })
-vim.keymap.set({ "i", "n" }, "<C-p>", "<cmd>:Telescope fd hidden=true<Cr>", { silent = true })
-vim.keymap.set({ "i", "n" }, "<A-Left>", "<cmd>:bnext<Cr>", { silent = true })
-vim.keymap.set({ "i", "n" }, "<A-Right>", "<cmd>:bprevious<Cr>", { silent = true })
-
-a = { b = c }
+require("config.ui")
+require("config.lsp")
