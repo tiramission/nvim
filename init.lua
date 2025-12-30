@@ -22,6 +22,7 @@ core.packadd({
   {
     core.gh("folke/noice.nvim"),
     core.gh("MunifTanjim/nui.nvim"),
+    core.gh("rcarriga/nvim-notify"),
   },
   core.gh("aznhe21/actions-preview.nvim"),
   core.gh("mason-org/mason-lspconfig.nvim"),
