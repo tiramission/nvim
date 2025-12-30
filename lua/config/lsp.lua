@@ -5,6 +5,7 @@ require("mason-lspconfig").setup({ automatic_enable = false })
 require("blink.cmp").setup({
   keymap = { preset = "super-tab" },
   fuzzy = { implementation = "lua" },
+  signature = { enabled = false },
 })
 
 vim.lsp.config("stylua", {
